@@ -9,7 +9,7 @@ const inventarioSchema = new mongoose.Schema({
     fechaCompra: { type: Date, required: true },
     precio: { type: Number, required: true },
     // Relaciones (Equivalente a Llaves Foráneas)
-    usuarioCargo: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario', required: true },
+    usuarioCargo: { type: mongoose.Schema.Types.ObjectId, ref: 'Usuario' },
     marca: { type: mongoose.Schema.Types.ObjectId, ref: 'Marca' },
     estadoEquipo: { type: mongoose.Schema.Types.ObjectId, ref: 'EstadoEquipo' },
     tipoEquipo: { type: mongoose.Schema.Types.ObjectId, ref: 'TipoEquipo' }
