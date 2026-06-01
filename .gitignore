@@ -2,6 +2,9 @@
 # Node.js - API de Inventarios con JWT
 # ======================================
 
+# Documentación interna (solo para uso local / Word)
+Documentacion_Proyecto.md
+
 # Dependencias de Node.js (se instalan con 'npm install')
 node_modules/
 
