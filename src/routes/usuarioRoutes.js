@@ -3,20 +3,23 @@ const express = require('express');
 const router = express.Router();
 const { crearUsuario } = require('../controllers/usuarioController');
 
-// POST /api/usuarios - Crear un nuevo usuario
-router.post('/', crearUsuario);
+// 🔐 IMPORTAMOS TUS MIDDLEWARES REALES DESDE AUTHMIDDLEWARE
+const { validarToken, esAdmin } = require('../middlewares/authMiddleware');
 
-router.get('/', async function (req, res) {
+// 🚀 POST /api/usuarios - Crear un nuevo usuario (SOLO EL ADMIN PUEDE CREAR)
+router.post('/', validarToken, esAdmin, crearUsuario);
+
+// 🔍 GET /api/usuarios - Consultar todos los usuarios (SOLO EL ADMIN PUEDE VER LA LISTA)
+router.get('/', validarToken, esAdmin, async function (req, res) {
     try {
         const usuarios = await Usuario.find();
         res.send(usuarios);
     } catch (error) {
         console.log("--- ERROR REAL AQUÍ DEBAJO ---");
-        console.log(error); // Esto imprimirá el problema real en tu terminal
+        console.log(error);
         console.log("-------------------------------");
         res.status(500).send('Ocurrió un error al consultar los usuarios');
     }
 });
-
 
 module.exports = router;
