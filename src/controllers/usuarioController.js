@@ -4,7 +4,8 @@ const bcrypt = require('bcryptjs');
 // Crear un nuevo usuario
 const crearUsuario = async (req, res) => {
     try {
-        const { email, password, rol } = req.body;
+        // 1. Recibimos también el nombre desde el cuerpo de la petición
+        const { nombre, email, password, rol } = req.body;
 
         // Validar si el usuario ya existe
         const usuarioExistente = await Usuario.findOne({ email });
@@ -12,8 +13,9 @@ const crearUsuario = async (req, res) => {
             return res.status(400).json({ mensaje: 'El usuario ya está registrado' });
         }
 
-        // Crear la instancia del usuario
+        // 2. Pasamos el nombre a la instancia del modelo
         const usuario = new Usuario({
+            nombre,
             email,
             password,
             rol
@@ -26,11 +28,12 @@ const crearUsuario = async (req, res) => {
         // Guardar en la base de datos
         await usuario.save();
 
-        // Responder omitiendo la contraseña por seguridad
+        // 3. Incluimos el nombre en la respuesta por estética y seguridad
         res.status(201).json({
             mensaje: 'Usuario creado exitosamente',
             usuario: {
                 id: usuario._id,
+                nombre: usuario.nombre,
                 email: usuario.email,
                 rol: usuario.rol
             }
